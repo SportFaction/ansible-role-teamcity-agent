@@ -6,12 +6,20 @@
     - zip
     - git
     
-- name: "Download Agent Package"
-  get_url:
-    url: "http://{{ teamcity_agent_server_url }}:{{ teamcity_agent_server_port }}/update/buildAgent.zip"
-    dest: /tmp
-    validate_certs: no
-    timeout: 60
+# - name: "Download Agent Package"
+#   get_url:
+#     url: "http://{{ teamcity_agent_server_url }}:{{ teamcity_agent_server_port }}/update/buildAgent.zip"
+#     dest: /tmp
+#     validate_certs: no
+#     timeout: 60
+#   register: _teamcity_agent_package
+
+- copy:
+    src: /files/buildAgent.zip
+    dest: /tmp/buildAgent.zip
+    owner: root
+    group: root
+    mode: 0644
   register: _teamcity_agent_package
 
 - name: "Install dependencies"
