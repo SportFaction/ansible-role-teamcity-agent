@@ -1,0 +1,19 @@
+---
+java_home: "/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+
+teamcity_agent_server_url: localhost
+teamcity_agent_server_port: 8111
+teamcity_agent_install_dir: /opt/TeamCity/buildAgent
+
+teamcity_server_user_name: teamcity
+teamcity_server_user_passwd: teamcity
+
+
+#############
+# terraform #
+#############
+
+terraform_repos: []
+terraform_project_root: /var/www/terraform
+terraform_branch: 'master'
+

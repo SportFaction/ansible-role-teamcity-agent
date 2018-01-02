@@ -1,0 +1,23 @@
+- name: "Create dir structure"
+  file:
+    path: "/usr/local/packer"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
+
+- name: Download Terraform
+  get_url:
+    url: "https://releases.hashicorp.com/terraform/0.11.1/terraform_0.11.1_linux_amd64.zip"
+    dest: "/tmp/terraform.zip"
+
+- name: Extract Terraform
+  unarchive:
+    src: /tmp/terraform.zip
+    dest: /usr/local
+    remote_src: yes
+
+- name: Pull sources from the repository.
+  git: repo={{ item }} dest={{ terraform_project_root }} version={{ terraform_branch }} accept_hostkey=yes
+  become_user: ubuntu
+  with_items: "{{ terraform_repos }}"
