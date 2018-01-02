@@ -15,8 +15,8 @@
 #   register: _teamcity_agent_package
 
 - copy:
-    src: /files/buildAgent.zip
-    dest: /tmp/buildAgent.zip
+    src: "files/buildAgent.zip"
+    dest: "/tmp/buildAgent.zip"
     owner: root
     group: root
     mode: 0644
