@@ -6,3 +6,5 @@ teamcity_agent_hostname: "{{ ansible_default_ipv4.address }}"
 
 teamcity_server_user_name: teamcity
 teamcity_server_user_passwd: teamcity
+
+teamcity_db_password: "{{ teamcity_db_password }}"

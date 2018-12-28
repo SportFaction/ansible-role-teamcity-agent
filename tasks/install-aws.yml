@@ -1,0 +1,7 @@
+- name: Install Aws Cli
+  apt:
+    name: awscli
+
+- name: Install JQ
+  apt:
+    name: jq

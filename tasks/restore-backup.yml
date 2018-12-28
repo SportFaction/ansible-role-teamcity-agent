@@ -1,0 +1,36 @@
+- name: check if backup exist
+  local_action: stat path=files/TeamCityBackup.zip
+  register: backup_found
+
+- name: "Stop Teamcity Server"
+  service:
+    name: teamcity-server
+    state: stopped
+    when: backup_found.stat.exists
+
+- copy:
+    src: "files/TeamCityBackup.zip"
+    dest: "/opt/TeamCity/.BuildServer/import/TeamCityBackup.zip"
+    owner: teamcity
+    group: teamcity
+    mode: 0644
+    when: backup_found.stat.exists
+
+- name: Drop Database
+  shell: dropdb sfteamcity -U teamcity -W {{ teamcity_db_password }}
+  when: backup_found.stat.exists
+
+- name: Create Database
+  shell: createdb sfteamcity -U teamcity -W {{ teamcity_db_password }}
+  when: backup_found.stat.exists
+
+- name: Restore Backup
+  shell: /opt/TeamCity/bin/maintainDB.sh restore -A /opt/TeamCity/ -F /home/ubuntu/TeamCityBackup.zip  -T /opt/TeamCity/.BuildServer/config/database.properties
+  when: backup_found.stat.exists
+
+- name: "Start Teamcity Server"
+  service:
+    name: teamcity-server
+    state: started
+    enabled: yes
+    when: backup_found.stat.exists
