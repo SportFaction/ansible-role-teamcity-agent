@@ -3,10 +3,8 @@
   register: backup_found
 
 - name: "Stop Teamcity Server"
-  service:
-    name: teamcity-server
-    state: stopped
-    when: backup_found.stat.exists
+  shell: sudo service teamcity-server stop
+  when: backup_found.stat.exists
 
 - copy:
     src: "files/TeamCityBackup.zip"
@@ -29,8 +27,5 @@
   when: backup_found.stat.exists
 
 - name: "Start Teamcity Server"
-  service:
-    name: teamcity-server
-    state: started
-    enabled: yes
-    when: backup_found.stat.exists
+  shell: sudo service teamcity-server start
+  when: backup_found.stat.exists
